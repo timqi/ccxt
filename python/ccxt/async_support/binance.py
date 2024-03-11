@@ -4019,7 +4019,7 @@ class binance(Exchange, ImplicitAPI):
             self.safe_number_2(ohlcv, volumeIndex, 'volume'),
         ]
 
-    async def fetch_ohlcv(self, symbol: str, timeframe='1m', since: Int = None, limit: Int = None, params={}) -> List[list]:
+    async def fetch_ohlcv(self, symbol: str, timeframe='1m', since: Int = None, limit: Int = None, params={}, raw_response=False) -> List[list]:
         """
         fetches historical candlestick data containing the open, high, low, and close price, and the volume of a market
         :see: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
@@ -4122,6 +4122,9 @@ class binance(Exchange, ImplicitAPI):
         #         }
         #     ]
         #
+        if raw_response:
+            return response
+
         return self.parse_ohlcvs(response, market, timeframe, since, limit)
 
     def parse_trade(self, trade, market: Market = None) -> Trade:
